@@ -10,7 +10,6 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -51,66 +50,6 @@ func getTokenFromFile(filename string) (*oauth2.Token, error) {
 		return nil, err
 	}
 	return result, nil
-}
-
-func finalize() error {
-	httpServer := "http://localhost:5050/"
-	client := &http.Client{}
-	request, err := http.NewRequest(http.MethodPut, httpServer+"player/finalize", nil)
-	if err != nil {
-		fmt.Println("Received an error when createing new request to finalize any songs: ", err)
-		return err
-	}
-
-	response, err := client.Do(request)
-	if err != nil {
-		fmt.Println("Received an error when making the request to finalize.", err)
-		return err
-	}
-
-	defer response.Body.Close()
-
-	contents, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return err
-	}
-
-	if response.StatusCode != http.StatusOK {
-		fmt.Println("Received a bad status code: ", response.StatusCode)
-		fmt.Println("Contents = ", string(contents))
-		return errors.New("Bad status code: " + response.Status)
-	}
-	return nil
-}
-
-func getNextSong() error {
-	httpServer := "http://localhost:5050/"
-	client := &http.Client{}
-	request, err := http.NewRequest(http.MethodPut, httpServer+"player/finalize", nil)
-	if err != nil {
-		fmt.Println("Received an error when createing new request to finalize any songs: ", err)
-		return err
-	}
-
-	response, err := client.Do(request)
-	if err != nil {
-		fmt.Println("Received an error when making the request to finalize.", err)
-		return err
-	}
-
-	defer response.Body.Close()
-
-	contents, err := ioutil.ReadAll(response.Body)
-	if err != nil {
-		return err
-	}
-
-	if response.StatusCode != http.StatusOK {
-		fmt.Println("Received a bad status code: ", response.StatusCode)
-		fmt.Println("Contents = ", string(contents))
-		return errors.New("Bad status code: " + response.Status)
-	}
-	return nil
 }
 
 func writeTokenToFile(filename string, tok *oauth2.Token) error {

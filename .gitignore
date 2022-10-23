@@ -1,0 +1,7 @@
+.DS_Store
+cmd/http-server/.vscode/
+cmd/http-server/cockroach-data/
+cmd/music-server/.env
+cmd/music-server/.spotify-token.json
+cockroach/.vscode/
+cockroach/cockroach-data/
